@@ -1,0 +1,1 @@
+start "" "C:\Users\Caity\AppData\Local\Programs\Python\Python39\python.exe" "C:\Users\Caity\Desktop\GC - School\1004\final\dbconnect.py"

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Weather Flask Charts</title>
+  </head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">BDAT 1004 Charts</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link active" aria-current="page" href="/tweather">Toronto Forecast</a>
+        <a class="nav-link" href="/tdif">Toronto Temp Differences</a>
+        <a class="nav-link" href="/mweather">Melbourne Forecast</a>
+	    <a class="nav-link" href="/mdif">Melbourne Temp Differences</a>
+        <a class="nav-link" href="/sweather">Suva Forecast</a>
+	    <a class="nav-link" href="/sdif">Suva Temp Differences</a>
+
+      </div>
+    </div>
+  </div>
+</nav>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+			{% for key, value in data.items() %}
+				{% if value is string %}
+					['{{ key }}', '{{ value }}'],
+				{% else %}
+					['{{ key }}', {{ value }}],
+				{% endif %}
+			{% endfor %}
+        ]);
+
+        var options = {
+            title: '3-Hourly 5-Day Forecast for Toronto',
+            curveType: 'function',
+            lineWidth: 10,
+            colors: ['#2980B9'],
+            vAxis:{
+                title: 'Temperature(C°)'
+            },
+            hAxis:{
+                title: 'Date & Time'
+            },
+            legend: 'none'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="curve_chart" style="width: 1500px; height: 1000px"></div>
+  </body>
+</html>
